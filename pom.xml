@@ -15,7 +15,7 @@
 	<description>Project for online stores, blogs and service sites.</description>
 	<properties>
 		<java.version>17</java.version>
-	</properties>git add pom.xml
+	</properties>
 	<dependencies>
 		<!-- Thymeleaf -->
 		<dependency>
