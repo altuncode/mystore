@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en" dir="ltr" data-scompiler-id="0">
+<head th:replace="~{admin/layout.html :: sethead}"></head>
+<body>
+<div class="sa-app sa-app--desktop-sidebar-shown sa-app--mobile-sidebar-hidden sa-app--toolbar-fixed">
+    <div th:replace="~{admin/layout.html :: setsidebar}"></div>
+    <div class="sa-app__content">
+        <div th:replace="~{admin/layout.html :: settoolbar}"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+                <!-- sa-app__body -->
+                <div id="top" class="sa-app__body">
+                    <div class="mx-sm-2 px-2 px-sm-3 px-xxl-4 pb-6">
+                        <div class="container">
+                            <form id="contactForm" th:method="@{${product.id == null ? 'POST' : 'PATCH'}}" th:action="@{${product.id == null ? '/admin/product/add' : '/admin/product/edit/' + product.id}}"th:object="${product}" enctype="multipart/form-data" >
+                            <div class="py-5">
+                                <div class="row g-4 align-items-center">
+                                    <div class="col">
+                                        <h1 class="h3 m-0" th:text="${product.id == null ? 'Add Product' : 'Edit Product'}">Default</h1>
+                                    </div>
+                                    <div class="col-auto d-flex">
+                                        <a th:href="@{/admin/product/list}" class="btn btn-secondary me-3">Cancel</a>
+                                        <a class="btn btn-secondary me-3" th:if="${product.id == null}" onclick="submitFormInNewTab();" >Save and add more</a>
+                                        <script>
+                                            function submitFormInNewTab() {
+                                                const form = document.getElementById('contactForm');
+                                                const originalTarget = form.target;
+                                                form.target = "_blank";
+                                                form.submit();
+                                                form.target = originalTarget;
+                                                return false;
+                                            }
+                                        </script>
+                                        <a onclick="document.getElementById('contactForm').submit(); return false;" class="btn btn-primary">Save</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="sa-entity-layout" data-sa-container-query='{"920":"sa-entity-layout--size--md","1100":"sa-entity-layout--size--lg"}'>
+                                <div class="sa-entity-layout__body">
+                                    <div class="sa-entity-layout__main">
+                                        <div class="card">
+                                            <div class="card-body p-5">
+                                                <div class="mb-5"><h2 class="mb-0 fs-exact-18">Basic information</h2></div>
+                                                <div class="mb-4">
+                                                    <label for="name" class="form-label">Name</label>
+                                                    <input type="text" class="form-control" id="name" value="default" th:field="*{name}" />
+                                                    <b> <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-danger">default</div></b>
+                                                </div><br>
+
+                                                <div>
+                                                    <label for="shortDescription" class="form-label">Short description</label>
+                                                    <textarea id="shortDescription" class="form-control" rows="2" th:field="*{shortDescription}">default</textarea>
+                                                    <b> <div th:if="${#fields.hasErrors('shortDescription')}" th:errors="*{shortDescription}" class="text-danger">default</div></b>
+                                                </div> <br>
+                                                <div class="mb-4">
+                                                    <label for="description" class="form-label">Description</label>
+                                                    <textarea id="description" class="form-control" rows="8" th:field="*{description}" >default</textarea>
+                                                    <b> <div th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="text-danger">default</div></b>
+                                                </div><br>
+                                                <div class="mb-4">
+                                                    <label for="categories" class="form-label">Categories</label>
+                                                    <select id="categories" class="sa-select2 form-select" name="subCategoryIds" multiple="">
+                                                        <!-- Iterate through categories -->
+                                                        <th:block th:each="category : ${categories}">
+                                                            <optgroup th:label="${category.name}">
+                                                                <!-- Iterate through subcategories within each category -->
+                                                                <th:block th:each="subCategory : ${category.subCategories}">
+                                                                    <option th:value="${subCategory.id}" th:text="${subCategory.name}" th:selected="${product.checkForMatchingId(subCategory.id)}" ></option>
+                                                                </th:block>
+                                                            </optgroup>
+                                                        </th:block>
+                                                    </select>
+                                                    <b> <div th:if="${catCheck}" class="text-danger">Categories is required.</div></b>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="card mt-5">
+                                            <div class="card-body p-5">
+                                                <div class="mb-5"><h2 class="mb-0 fs-exact-18">Additional information</h2></div>
+
+
+
+                                                <div class="mb-4">
+                                                    <label  class="form-label">Measurements</label>
+                                                    <div class="input-group flex-nowrap">
+                                                        <label for="width" class="input-group-text" >Width</label >
+                                                        <input type="text" id="width" class="form-control" th:field="*{width}" placeholder="Width" aria-label="Width" aria-describedby="addon-wrapping" />
+
+                                                    </div>
+                                                    <b> <div th:if="${#fields.hasErrors('width')}" th:errors="*{width}" class="text-danger">default</div></b><br>
+                                                    <div class="input-group flex-nowrap">
+                                                        <label for="height" class="input-group-text" >Height</label >
+                                                        <input type="text" id="height" class="form-control" th:field="*{height}" placeholder="Height" aria-label="Height" aria-describedby="addon-wrapping" />
+                                                    </div><b>  <div th:if="${#fields.hasErrors('height')}" th:errors="*{height}" class="text-danger">default</div></b><br>
+                                                    <div class="input-group flex-nowrap">
+                                                        <label for="depth" class="input-group-text" >Depth</label >
+                                                        <input type="text" id="depth" class="form-control" th:field="*{depth}" placeholder="Depth" aria-label="Depth" aria-describedby="addon-wrapping" />
+                                                    </div> <b> <div th:if="${#fields.hasErrors('depth')}" th:errors="*{depth}" class="text-danger">default</div></b><br>
+                                                    <br>
+                                                    <div class="mb-4">
+                                                        <label for="color" class="form-label">Color</label>
+                                                        <select id="color" class="form-select" th:field="*{productColor}">
+                                                            <option value="" th:selected="*{productColor == null}">Select color</option>
+                                                            <option th:each="color : ${colors}"
+                                                                    th:value="${color.id}"
+                                                                    th:text="${color.name}"
+                                                                    th:selected="${productColor != null and color.id == productColor.id}"></option>
+                                                        </select>
+                                                        <b> <div th:if="${#fields.hasErrors('productColor')}" th:errors="*{productColor}" class="text-danger">default</div></b>
+                                                    </div>
+
+
+                                                    <br>
+
+
+                                                        <div class="mb-5"><h2 class="mb-0 fs-exact-18">Pricing</h2></div>
+                                                        <div class="row g-4">
+                                                            <div class="col">
+                                                                <label for="Price" class="form-label">Price</label>
+                                                                <input type="number" id="Price" class="form-control" th:field="*{price}" />
+                                                                <b> <div th:if="${#fields.hasErrors('price')}" th:errors="*{price}" class="text-danger">default</div></b>
+                                                            </div>
+                                                            <div class="col">
+                                                                <label for="old-price" class="form-label">Discount price</label>
+                                                                <input type="number" class="form-control" id="old-price" th:field="*{newPrice}" />
+                                                                <b> <div th:if="${#fields.hasErrors('newPrice')}" th:errors="*{newPrice}" class="text-danger">default</div></b>
+
+                                                        </div>
+                                                    </div>
+
+
+                                                </div><br>
+
+                                                <div class="mb-4">
+                                                    <label for="productStatusEnum" class="form-label">Status</label>
+                                                    <select id="productStatusEnum" class="form-select" th:field="*{productStatusEnum}">
+                                                        <option value="" th:selected="*{productStatusEnum == null}">None</option>
+                                                        <option th:each="status : ${statuses}"
+                                                                th:value="${status}"
+                                                                th:text="${status}"
+                                                                th:selected="${productStatusEnum != null and status == productStatusEnum}"></option>
+                                                    </select>
+                                                    <b> <div th:if="${#fields.hasErrors('productStatusEnum')}" th:errors="*{productStatusEnum}" class="text-danger">default</div></b>
+                                                </div><br>
+
+
+                                                <div>
+                                                    <label for="quantity" class="form-label">Stock quantity</label>
+                                                    <input type="number" class="form-control" id="quantity" th:field="*{quantity}" />
+                                                </div><b> <div th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}" class="text-danger">default</div></b><br>
+                                                <div class="col-12">
+                                                    <div class="form-check">
+                                                        <input
+                                                                type="checkbox"
+                                                                class="form-check-input"
+                                                                id="invalidCheck2"
+                                                                th:field="*{active}"
+                                                        /><label class="form-check-label" for="invalidCheck2"
+                                                    >Active</label
+                                                    >
+                                                    </div>
+                                                    <script>// Example using vanilla JavaScript
+                                                    document.querySelector('form').addEventListener('submit', function(event) {
+                                                        const isChecked = document.querySelector('input[name="active"]').checked;
+                                                        console.log('Checkbox is checked:', isChecked);
+                                                    });</script>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="sa-entity-layout__sidebar">
+                                        <div class="card w-100">
+                                            <div class="card w-100 mt-5">
+                                                <div class="card-body p-5">
+                                                    <div class="mb-5"><h2 class="mb-0 fs-exact-18">Image</h2></div>
+                                                    <div class="border p-4 d-flex justify-content-center">
+                                                        <div class="max-w-20x">
+                                                            <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+                                                                <div class="carousel-inner" >
+                                                                    <div th:each="image, iterStat : ${product.images}"  th:class="${iterStat.first} ? 'carousel-item active' : 'carousel-item'">
+                                                                        <img th:src="@{${image.url}}" class="d-block w-100 h-auto" width="720" height="405" alt="" />
+                                                                    </div>
+                                                                </div>
+                                                                <button
+                                                                        class="carousel-control-prev"
+                                                                        type="button"
+                                                                        data-bs-target="#carouselExampleControls"
+                                                                        data-bs-slide="prev"
+                                                                >
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span
+        ><span class="visually-hidden">Previous</span></button
+                                                                ><button
+                                                                    class="carousel-control-next"
+                                                                    type="button"
+                                                                    data-bs-target="#carouselExampleControls"
+                                                                    data-bs-slide="next"
+                                                            >
+        <span class="carousel-control-next-icon" aria-hidden="true"></span
+        ><span class="visually-hidden">Next</span>
+                                                            </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="mt-4 mb-n2">
+                                                        <input type="file" class="form-control" name="imagess" multiple accept="image/*">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card mt-5">
+                                                <div class="mt-n5">
+                                                    <div class="sa-divider"></div>
+                                                    <div class="table-responsive">
+                                                        <table class="sa-table">
+                                                            <thead>
+                                                            <tr>
+                                                                <th class="w-min">Image</th>
+                                                                <th class="min-w-10x">Alt text</th>
+                                                                <th class="w-min">Order</th>
+                                                                <th class="w-min">Delete</th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            <tr th:each="image, iterStat : ${product.images}">
+                                                                <td>
+                                                                    <div class="sa-symbol sa-symbol--shape--rounded sa-symbol--size--lg">
+                                                                     <a th:href="${image.url}" target="_blank">  <img th:src="@{${image.url}}" width="40" height="40" alt="" /></a>
+                                                                    </div>
+                                                                </td>
+                                                                <td><input type="text" th:field="*{images[__${iterStat.index}__].altText}" class="form-control form-control-sm" /></td>
+                                                                <td><input type="number" th:field="*{images[__${iterStat.index}__].orderImg}" class="form-control form-control-sm w-4x" value="0" /></td>
+                                                                <input type="hidden" th:field="*{images[__${iterStat.index}__].id}" readonly />
+                                                                <td>
+                                                                    <input
+                                                                            type="checkbox"
+                                                                            class="form-check-input is-invalid"
+                                                                            name="deletedImg" th:value="${image.id}"
+                                                                    />
+                                                                </td>
+                                                            </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="card w-100">
+                                            <div class="card w-100 mt-5">
+                                                <div class="card-body p-5">
+                                                    <div class="mb-5"><h2 class="mb-0 fs-exact-18">Files</h2></div>
+                                                    <div class="mt-4 mb-n2">
+                                                        <input type="file" class="form-control" name="pdfs" multiple accept=".pdf">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card mt-5">
+                                                <div class="mt-n5">
+                                                    <div class="sa-divider"></div>
+                                                    <div class="table-responsive">
+                                                        <table class="sa-table">
+                                                            <thead>
+                                                            <tr>
+                                                                <th class="w-min">File</th>
+                                                                <th class="min-w-10x">Name</th>
+                                                                <th class="w-min">Order</th>
+                                                                <th class="w-min">Delete</th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            <tr th:each="pdf, iterStat : ${product.productPdfs}">
+                                                                <td>
+                                                                    <a th:href="${pdf.url}" th:text="${pdf.id}" target="_blank">Default</a>
+                                                                </td>
+                                                                <td><input type="text" th:field="*{productPdfs[__${iterStat.index}__].altText}" class="form-control form-control-sm" /></td>
+                                                                <td><input type="number" th:field="*{productPdfs[__${iterStat.index}__].orderPdf}" class="form-control form-control-sm w-4x" value="0" /></td>
+                                                                <input type="hidden" th:field="*{productPdfs[__${iterStat.index}__].id}" readonly />
+                                                                <td>
+                                                                    <input
+                                                                            type="checkbox"
+                                                                            class="form-check-input is-invalid"
+                                                                            name="deletedPdf" th:value="${pdf.id}"
+                                                                    />
+                                                                </td>
+                                                            </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- sa-app__body / end -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <div th:replace="~{admin/layout.html :: setfooter}"></div>
+    </div>
+    <div class="sa-app__toasts toast-container bottom-0 end-0"></div>
+</div>
+<div th:replace="~{admin/layout.html :: setscript}"></div>
+</body>
+</html>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en" dir="ltr" data-scompiler-id="0">
+<head th:replace="~{admin/layout.html :: sethead}"></head>
+<body>
+<div class="sa-app sa-app--desktop-sidebar-shown sa-app--mobile-sidebar-hidden sa-app--toolbar-fixed">
+    <div th:replace="~{admin/layout.html :: setsidebar}"></div>
+    <div class="sa-app__content">
+        <div th:replace="~{admin/layout.html :: settoolbar}"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+        <!-- sa-app__body -->
+        <div id="top" class="sa-app__body">
+            <div class="mx-sm-2 px-2 px-sm-3 px-xxl-4 pb-6">
+                <div class="container">
+                    <form id="contactForm" th:method="@{${productColor.id == null ? 'POST' : 'PATCH'}}" th:action="@{${productColor.id == null ? '/admin/product/color/add' : '/admin/product/color/edit/' + productColor.id}}" th:object="${productColor}" >
+                        <div class="py-5">
+                            <div class="row g-4 align-items-center">
+                                <div class="col">
+                                    <h1 class="h3 m-0" th:text="${productColor.id == null ? 'Add Color' : 'Edit Color'}"> >Default</h1>
+                                </div>
+                                <div class="col-auto d-flex">
+                                    <a th:href="@{/admin/product/color/list}" class="btn btn-secondary me-3">Cancel</a>
+                                    <a onclick="document.getElementById('contactForm').submit(); return false;" class="btn btn-primary">Save</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="sa-entity-layout" data-sa-container-query='{"920":"sa-entity-layout--size--md","1100":"sa-entity-layout--size--lg"}'>
+                            <div class="sa-entity-layout__body">
+                                <div class="sa-entity-layout__main">
+                                    <div class="card">
+                                        <div class="card-body p-5">
+                                            <div class="mb-5"><h2 class="mb-0 fs-exact-18">Basic information</h2></div>
+                                            <div class="mb-4">
+                                                <label for="name" class="form-label">Name</label>
+                                                <input type="text" class="form-control" id="name" value="novalue" th:field="*{name}" />
+                                                <b> <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-danger">default</div></b>
+                                            </div><br>
+
+                                            <div class="mb-4">
+                                                <label for="hexCode" class="form-label">HEX code</label>
+                                                <input type="text" class="form-control" id="hexCode" value="novalue" th:field="*{hexCode}" />
+                                                <b> <div th:if="${#fields.hasErrors('hexCode')}" th:errors="*{hexCode}" class="text-danger">default</div></b>
+                                            </div><br>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- sa-app__body / end -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <div th:replace="~{admin/layout.html :: setfooter}"></div>
+    </div>
+    <div class="sa-app__toasts toast-container bottom-0 end-0"></div>
+</div>
+<div th:replace="~{admin/layout.html :: setscript}"></div>
+</body>
+</html>

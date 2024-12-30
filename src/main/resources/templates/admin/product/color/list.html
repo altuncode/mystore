@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en" dir="ltr" data-scompiler-id="0">
+<head th:replace="~{admin/layout.html :: sethead}"></head>
+<body>
+<div class="sa-app sa-app--desktop-sidebar-shown sa-app--mobile-sidebar-hidden sa-app--toolbar-fixed">
+    <div th:replace="~{admin/layout.html :: setsidebar}"></div>
+    <div class="sa-app__content">
+        <div th:replace="~{admin/layout.html :: settoolbar}"></div>
+
+
+
+
+
+        <!-- sa-app__body -->
+        <div id="top" class="sa-app__body">
+            <div class="mx-sm-2 px-2 px-sm-3 px-xxl-4 pb-6">
+                <div class="container">
+                    <div class="py-5">
+                        <div class="row g-4 align-items-center">
+                            <div class="col">
+                                <h1 class="h3 m-0">Colors</h1>
+                            </div>
+                            <div class="col-auto d-flex"><a th:href="@{/admin/product/color/add}" class="btn btn-primary">New color</a></div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <table class="table table-hover mb-0">
+                                <caption class="pb-0">
+                                    <span th:text="'Showing ' + (((${currentPage} -1) * ${pageSize}) + 1) + ' to ' +
+                       ((${currentPage}) * ${pageSize} > ${totalItems} ? ${totalItems} : (${currentPage}) * ${pageSize}) + ' of ' + ${totalItems}"></span>
+                                </caption>
+                                <thead>
+                                <tr>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">HEX code</th>
+                                    <th scope="col">Items</th>
+                                    <th scope="w-min"></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="obj : ${productColors}" >
+                                    <th scope="row" th:text="${obj.id}" >0</th>
+                                    <td th:text="${obj.name}" >Default</td>
+                                    <td><div class="badge badge-sa-success" th:style="'background: ' + ${obj.hexCode} + ';'" th:text="${obj.hexCode}">#0000</div></td>
+                                    <td>3</td>
+                                    <td>
+                                        <div class="dropdown">
+                                            <button
+                                                    class="btn btn-sa-muted btn-sm"
+                                                    type="button"
+                                                    id="category-context-menu-0"
+                                                    data-bs-toggle="dropdown"
+                                                    aria-expanded="false"
+                                                    aria-label="More"
+                                            >
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="3" height="13" fill="currentColor">
+                                                    <path
+                                                            d="M1.5,8C0.7,8,0,7.3,0,6.5S0.7,5,1.5,5S3,5.7,3,6.5S2.3,8,1.5,8z M1.5,3C0.7,3,0,2.3,0,1.5S0.7,0,1.5,0 S3,0.7,3,1.5S2.3,3,1.5,3z M1.5,10C2.3,10,3,10.7,3,11.5S2.3,13,1.5,13S0,12.3,0,11.5S0.7,10,1.5,10z"
+                                                    ></path>
+                                                </svg>
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="category-context-menu-0">
+                                                <li><a class="dropdown-item" th:href="@{/admin/product/color/edit/{id}(id=${obj.id})}">Edit</a></li>
+                                                <li><hr class="dropdown-divider" /></li>
+                                                <li>
+                                                    <form th:method="delete" th:action="@{/admin/product/color/delete/{id}(id=${obj.id})}" class="delete-form">
+                                                        <button type="button" class="dropdown-item text-danger delete-action">
+                                                            Delete
+                                                        </button>
+                                                    </form>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div style="padding: 1.1rem 1.1rem;" class="card-body">
+                            <nav aria-label="Page navigation example">
+                            <ul class="pagination pagination-sm mb-0">
+                                <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled'" >
+                                    <a class="page-link" tabindex="-1" aria-disabled="true" th:href="@{/admin/product/color/list(page=${currentPage - 1})}" >Previous</a>
+                                </li>
+                                <li class="page-item active" aria-current="page">
+                                    <a class="page-link" th:text="${currentPage}">0</a>
+                                </li>
+                                <li class="page-item" th:if="${currentPage < totalPage}" ><a class="page-link" th:href="@{/admin/product/color/list(page=${currentPage + 1})}" th:text="${currentPage+1}">0</a></li>
+                                <li class="page-item" th:if="${currentPage + 1 < totalPage}"><a class="page-link" th:href="@{/admin/product/color/list(page=${currentPage + 2})}" th:text="${currentPage+2}">0</a></li>
+                                <li class="page-item" th:if="${currentPage + 2 < totalPage}"><a class="page-link" th:href="@{/admin/product/color/list(page=${currentPage + 3})}" th:text="${currentPage+3}">0</a></li>
+                                <li class="page-item" th:if="${currentPage + 3 < totalPage}"><a class="page-link" th:href="@{/admin/product/color/list(page=${currentPage + 4})}" th:text="${currentPage+4}">0</a></li>
+                                <li class="page-item" th:if="${currentPage + 4 < totalPage}"><a class="page-link" th:href="@{/admin/product/color/list(page=${currentPage + 5})}" th:text="${currentPage+5}">0</a></li>
+                                <li class="page-item" th:if="${currentPage + 5 < totalPage}"><a class="page-link" th:href="@{/admin/product/color/list(page=${currentPage + 6})}" th:text="${currentPage+6}">0</a></li>
+                                <li class="page-item" th:if="${currentPage + 6 < totalPage}"><a class="page-link" th:href="@{/admin/product/color/list(page=${currentPage + 7})}" th:text="${currentPage+7}">0</a></li>
+                                <li class="page-item" th:if="${currentPage + 7 < totalPage}"><a class="page-link" th:href="@{/admin/product/color/list(page=${currentPage + 8})}" th:text="${currentPage+8}">0</a></li>
+                                <li class="page-item" th:if="${currentPage + 8 < totalPage}"><a class="page-link" th:href="@{/admin/product/color/list(page=${currentPage + 9})}" th:text="${currentPage+9}">0</a></li>
+                                <li class="page-item" th:if="${currentPage + 9 < totalPage}"><a class="page-link" th:href="@{/admin/product/color/list(page=${currentPage + 10})}" th:text="${currentPage+10}">0</a></li>
+                                <li class="page-item" th:classappend="${currentPage == totalPage} ? 'disabled'"><a class="page-link" th:href="@{/admin/product/color/list(page=${currentPage + 1})}">Next</a></li>
+                            </ul>
+                            </nav>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- sa-app__body / end -->
+
+
+
+        <!-- Confirm Action Modal -->
+        <div
+                class="modal fade"
+                id="exampleModal"
+                tabindex="-1"
+                aria-labelledby="exampleModalLabel"
+                aria-hidden="true"
+        >
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Confirm Action</h5>
+                        <button
+                                type="button"
+                                class="sa-close sa-close--modal"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
+                        ></button>
+                    </div>
+                    <div class="modal-body">
+                        Are you sure you want to proceed with this action?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            Cancel
+                        </button>
+                        <button type="button" class="btn btn-primary" id="confirm-delete">
+                            Yes
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+
+        document.addEventListener("DOMContentLoaded", function () {
+        let formToSubmit = null; // Variable to store the form to be submitted
+
+        // Add event listeners to all delete-action buttons
+        document.querySelectorAll(".delete-action").forEach(function (button) {
+        button.addEventListener("click", function (e) {
+        e.preventDefault(); // Prevent default button behavior
+
+        // Find the closest form to the clicked button
+        formToSubmit = this.closest("form");
+
+        // Show the modal
+        const modal = new bootstrap.Modal(document.getElementById("exampleModal"));
+        modal.show();
+        });
+        });
+
+        // Handle the confirmation button in the modal
+        document.getElementById("confirm-delete").addEventListener("click", function () {
+        if (formToSubmit) {
+        formToSubmit.submit(); // Programmatically submit the correct form
+        } else {
+        console.error("No form to submit!");
+        }
+        });
+        });
+        </script>
+        <!--End Confirm Action-->
+
+
+
+        <div th:replace="~{admin/layout.html :: setfooter}"></div>
+    </div>
+    <div class="sa-app__toasts toast-container bottom-0 end-0"></div>
+</div>
+<div th:replace="~{admin/layout.html :: setscript}"></div>
+</body>
+</html>
